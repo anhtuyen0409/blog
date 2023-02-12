@@ -11,6 +11,9 @@ app.use(bodyParser.json());
 app.set("views", __dirname + "/apps/views");
 app.set("view engine", "ejs");
 
+//static folder
+app.use("/static", express.static(__dirname + "/public"));
+
 //import controller
 var controllers = require(__dirname + "/apps/controllers");
 
