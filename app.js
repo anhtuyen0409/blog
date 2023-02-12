@@ -7,8 +7,12 @@ var app = express();
 //sử dụng body-parser
 app.use(bodyParser.json());
 
+//setup view
+app.set("views", __dirname + "/apps/views");
+app.set("view engine", "ejs");
+
 //import controller
-var controllers = require(__dirname = "./apps/controllers");
+var controllers = require(__dirname + "/apps/controllers");
 
 //use controller
 app.use(controllers);

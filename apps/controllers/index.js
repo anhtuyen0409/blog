@@ -5,12 +5,14 @@ var express = require("express");
 var router = express.Router();
 
 //điều hướng trang sang admin/blog
-router.use("/admin", require(__dirname = "./admin.js"));
-router.use("/blog", require(__dirname = "./blog.js"));
+router.use("/admin", require(__dirname + "/admin.js"));
+router.use("/blog", require(__dirname + "/blog.js"));
 
 //config router trang home
 router.get("/", function(req, res){
-    res.json({"message": "This is Home Page"});
+    //res.json({"message": "This is Home Page"});
+    //hiển thị view 
+    res.render("test");
 });
 
 module.exports = router;
