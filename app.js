@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var app = express();
 //sử dụng body-parser
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true})); //nhận file signup.ejs
 
 //setup view
 app.set("views", __dirname + "/apps/views");
