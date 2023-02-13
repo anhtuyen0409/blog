@@ -6,6 +6,8 @@
     "mysql": {
         "host": "localhost",
         "port": 3306,
-        "database": "db_blog"
+        "database": "db_blog",
+        "user": "root",
+        "password": ""
     }
 }

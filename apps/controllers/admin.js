@@ -3,7 +3,7 @@ var express = require("express");
 var router = express.Router();
 
 //import user from model to insert database
-//var user_md = require("../models/user");
+var user_md = require("../models/user");
 
 //config router cho admin
 router.get("/", function(req, res){
@@ -26,7 +26,21 @@ router.post("/signup", function(req, res){
     }
 
     //insert to database
-    
+    user = {
+        email: user.email,
+        password: user.password,
+        first_name: user.first_name,
+        last_name: user.last_name
+    };
+
+    var result = user_md.addUser(user);
+
+    if(!result){
+        res.render("signup", {data: {error: "Could not insert user data to database"}});
+    }
+    else{
+        res.json({message: "Insert success"});
+    }
 });
 
 module.exports = router;
