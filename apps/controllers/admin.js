@@ -4,6 +4,8 @@ var router = express.Router();
 
 //import user from model to insert database
 var user_md = require("../models/user");
+//import helper to hash password
+var helper = require("../helpers/helper");
 
 //config router cho admin
 router.get("/", function(req, res){
@@ -26,21 +28,29 @@ router.post("/signup", function(req, res){
     }
 
     //insert to database
+    //hash password
+    var password = helper.hash_password(user.password);
     user = {
         email: user.email,
-        password: user.password,
+        password: password,
         first_name: user.first_name,
         last_name: user.last_name
     };
 
     var result = user_md.addUser(user);
 
-    if(!result){
-        res.render("signup", {data: {error: "Could not insert user data to database"}});
-    }
-    else{
+    result.then(function(data){
         res.json({message: "Insert success"});
-    }
+    }).catch(function(err){
+        res.render("signup", {data: {error: "error"}});
+    });
+
+    //if(!result){
+       // res.render("signup", {data: {error: "Could not insert user data to database"}});
+    //}
+    //else{
+       // res.json({message: "Insert success"});
+    //}
 });
 
 module.exports = router;
