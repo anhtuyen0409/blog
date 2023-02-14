@@ -40,7 +40,9 @@ router.post("/signup", function(req, res){
     var result = user_md.addUser(user);
 
     result.then(function(data){
-        res.json({message: "Insert success"});
+        //res.json({message: "Insert success"});
+        //sau khi đăng ký thành công sẽ điều hướng sang trang đăng nhập
+        res.redirect("/admin/signin");
     }).catch(function(err){
         res.render("signup", {data: {error: "error"}});
     });
@@ -55,6 +57,38 @@ router.post("/signup", function(req, res){
 
 router.get("/signin", function(req, res){
     res.render("signin", {data: {}});
+});
+
+router.post("/signin", function(req, res){
+    var params = req.body;
+    if(params.email.trim().length == 0){
+        res.render("signin", {data: {error: "Please enter an email"}});
+    }
+    else if(params.password.trim().length == 0){
+        res.render("signin", {data: {error: "Please enter password"}});
+    }
+    else{
+        //sau khi check người dùng đã nhập email và pass thì tiến hành lấy dữ liệu từ db
+        var data = user_md.getUserByEmail(params.email);
+
+        if(data){
+            data.then(function(users){
+                var user = users[0];
+
+                var status = helper.compare_password(params.password, user.password);
+
+                if(!status){
+                    res.render("signin", {data: {error: "Password Wrong"}});
+                }else{
+                    req.session.user = user; //đẩy thông tin user vào session
+                    console.log(req.session.user);
+                    res.redirect("/admin/");
+                }
+            });
+        }else{
+            res.render("signin", {data: {error: "User not exists"}});
+        }
+    }
 });
 
 module.exports = router;
