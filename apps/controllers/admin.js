@@ -9,7 +9,8 @@ var helper = require("../helpers/helper");
 
 //config router cho admin
 router.get("/", function(req, res){
-    res.json({"message": "This is Admin Page"});
+    //res.json({"message": "This is Admin Page"});
+    res.render("admin/dashboard", {data: {error: false}});
 });
 
 router.get("/signup", function(req, res){
