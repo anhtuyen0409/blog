@@ -148,5 +148,41 @@ router.post("/post/new", function(req, res){
     }
 });
 
+//điều hướng trang chỉnh sửa
+router.get("/post/edit/:id", function(req, res){
+    //if(req.session.user){
+        var params = req.params;
+        var id = params.id;
+
+        var data = post_md.getPostByID(id);
+
+        if(data){
+            data.then(function(posts){
+                var post = posts[0];
+                var data = {
+                    post: post,
+                    error: false
+                };
+
+                res.render("admin/post/edit", {data: data});
+            }).catch(function(err){
+                var data = {
+                    error: "Could not get Post by ID"
+                };
+
+                res.render("admin/post/edit", {data: data});
+            });
+        }else{
+            var data = {
+                error: "Could not get Post by ID"
+            };
+
+            res.render("admin/post/edit", {data: data});
+        }
+   // }else{
+       // res.redirect("/admin/signin");
+    //}
+
+});
 
 module.exports = router;
