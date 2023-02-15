@@ -119,5 +119,34 @@ router.get("/post/new", function(req, res){
 
 });
 
+//chức năng thêm mới bài viết
+router.post("/post/new", function(req, res){
+    var params = req.body;
+
+    if(params.title.trim().length == 0){
+        var data = {
+            error: "Please enter a title"
+        };
+
+        res.render("admin/post/new", {data: data});
+    }else{
+        //var now = new Date();
+       // params.created_at = now;
+       // params.updated_at = now;
+
+        var data = post_md.addPost(params);
+
+        data.then(function(result){
+            res.redirect("/admin");
+        }).catch(function(err){
+            var data = {
+                error: "Could not insert post"
+            };
+
+            res.render("admin/post/new", {data: data});
+        });
+    }
+});
+
 
 module.exports = router;
