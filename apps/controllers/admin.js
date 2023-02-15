@@ -109,4 +109,15 @@ router.post("/signin", function(req, res){
     }
 });
 
+//điều hướng sang trang thêm mới bài viết
+router.get("/post/new", function(req, res){
+   // if(req.session.user){
+        res.render("admin/post/new", {data: {error: false}});
+   // }else{
+     //   res.redirect("/admin/signin");
+    //}
+
+});
+
+
 module.exports = router;
